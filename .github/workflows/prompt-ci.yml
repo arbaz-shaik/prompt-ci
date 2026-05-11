@@ -1,0 +1,77 @@
+name: prompt-ci
+
+on:
+  pull_request:
+    paths:
+      - 'prompts/**'
+      - 'evals/**'
+      - 'scripts/**'
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          path: pr
+
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r pr/requirements.txt
+
+      - name: Run evals on main
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          cd main
+          python scripts/run_evals.py prompts/classifier.txt evals/classifier.jsonl ../main_results.json
+
+      - name: Run evals on PR
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          cd pr
+          python scripts/run_evals.py prompts/classifier.txt evals/classifier.jsonl ../pr_results.json
+
+      - name: Compare and render comment
+        id: compare
+        continue-on-error: true
+        run: |
+          python pr/scripts/compare.py main_results.json pr_results.json comment.md 0.05
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+
+      - name: Post PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: comment.md
+          header: prompt-ci
+
+      - name: Upload result artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: |
+            main_results.json
+            pr_results.json
+            comment.md
+
+      - name: Fail on regression
+        if: steps.compare.outputs.exit_code != '0'
+        run: |
+          echo "::error::Eval regression exceeded threshold"
+          exit 1

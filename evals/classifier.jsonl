@@ -1,0 +1,30 @@
+{"id": "bill_01", "category": "billing", "input": "Can I get a refund for my last order? I changed my mind.", "expected": "billing"}
+{"id": "bill_02", "category": "billing", "input": "I was charged twice for my subscription this month, please fix.", "expected": "billing"}
+{"id": "bill_03", "category": "billing", "input": "Where can I download my invoice from January?", "expected": "billing"}
+{"id": "bill_04", "category": "billing", "input": "My card got declined when I tried to renew. What do I do?", "expected": "billing"}
+{"id": "bill_05", "category": "billing", "input": "I want to dispute the $49 charge from yesterday, I never authorized it.", "expected": "billing"}
+{"id": "bill_06", "category": "billing", "input": "My promo code didn't apply at checkout. Can you make it right?", "expected": "billing"}
+{"id": "bill_07", "category": "billing", "input": "I need a receipt for my purchase so I can expense it at work.", "expected": "billing"}
+{"id": "tech_01", "category": "technical", "input": "The app crashes every single time I open my profile page.", "expected": "technical"}
+{"id": "tech_02", "category": "technical", "input": "I can't log in. It says invalid password but I literally just reset it.", "expected": "technical"}
+{"id": "tech_03", "category": "technical", "input": "The Export to CSV button does nothing when I click it.", "expected": "technical"}
+{"id": "tech_04", "category": "technical", "input": "Getting a 500 error when I try to save my project.", "expected": "technical"}
+{"id": "tech_05", "category": "technical", "input": "Audio playback has been broken on iOS since the last update.", "expected": "technical"}
+{"id": "tech_06", "category": "technical", "input": "Search results stop loading after page 3 and just spin forever.", "expected": "technical"}
+{"id": "tech_07", "category": "technical", "input": "Two-factor codes are arriving 10 minutes late and expire by then.", "expected": "technical"}
+{"id": "acct_01", "category": "account", "input": "How do I change the email address on my account?", "expected": "account"}
+{"id": "acct_02", "category": "account", "input": "I want to delete my account permanently and remove all my data.", "expected": "account"}
+{"id": "acct_03", "category": "account", "input": "Can someone help me reset my password? Forgot it.", "expected": "account"}
+{"id": "acct_04", "category": "account", "input": "I'd like to upgrade my plan from Starter to Team.", "expected": "account"}
+{"id": "acct_05", "category": "account", "input": "How do I add a profile picture?", "expected": "account"}
+{"id": "acct_06", "category": "account", "input": "I want to cancel my subscription effective end of month.", "expected": "account"}
+{"id": "feat_01", "category": "feature_request", "input": "It would be great if you could add dark mode to the web app.", "expected": "feature_request"}
+{"id": "feat_02", "category": "feature_request", "input": "Please consider adding a Slack integration. We'd use it daily.", "expected": "feature_request"}
+{"id": "feat_03", "category": "feature_request", "input": "Would love an Android app, currently only the web works on my phone.", "expected": "feature_request"}
+{"id": "feat_04", "category": "feature_request", "input": "Can you add the ability to schedule posts in advance?", "expected": "feature_request"}
+{"id": "feat_05", "category": "feature_request", "input": "A public API would make this product 10x more useful for our team.", "expected": "feature_request"}
+{"id": "other_01", "category": "other", "input": "Are you hiring engineers? I'd love to apply.", "expected": "other"}
+{"id": "other_02", "category": "other", "input": "Where is your office actually located? Asking because of timezone.", "expected": "other"}
+{"id": "other_03", "category": "other", "input": "Can I use your logo in a blog post I'm writing?", "expected": "other"}
+{"id": "other_04", "category": "other", "input": "Just wanted to say I love the product, keep up the great work!", "expected": "other"}
+{"id": "edge_01", "category": "billing", "input": "Switch me from monthly to annual billing please, want the discount.", "expected": "billing"}
