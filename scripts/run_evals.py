@@ -46,6 +46,7 @@ def run_case(prompt: str, case: dict, model: str) -> tuple[str, float, float]:
             {"role": "user", "content": case["input"]},
         ],
         temperature=0,
+        num_retries=5,
     )
     latency = time.time() - start
     output = response.choices[0].message.content or ""
@@ -73,6 +74,7 @@ def score_rubric(output: str, rubric: str, judge_model: str) -> bool:
         model=judge_model,
         messages=[{"role": "user", "content": judge_prompt}],
         temperature=0,
+        num_retries=5,
     )
     verdict = (response.choices[0].message.content or "").strip().upper()
     return verdict.startswith("PASS")
@@ -83,7 +85,9 @@ def run_evals(prompt_path: str, evals_path: str, model: str) -> list[dict]:
     cases = load_evals(evals_path)
 
     results = []
-    for case in cases:
+    for i, case in enumerate(cases):
+        if i > 0:
+            time.sleep(2.1)  # stay under Groq free tier 30 RPM
         output, latency, cost = run_case(prompt, case, model)
         if "expected" in case:
             passed = score_exact(output, case["expected"])
@@ -101,8 +105,8 @@ def run_evals(prompt_path: str, evals_path: str, model: str) -> list[dict]:
             "latency":  latency,
             "cost":     cost,
         })
-        status = "✓" if passed else "✗"
-        print(f"  {status} {case.get('id', '?'):20s}  ({latency:.2f}s)")
+        status = "OK" if passed else "FAIL"
+        print(f"  [{status}] {case.get('id', '?'):20s}  ({latency:.2f}s)")
     return results
 
 
