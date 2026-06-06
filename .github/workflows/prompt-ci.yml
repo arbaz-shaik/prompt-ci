@@ -48,20 +48,21 @@ jobs:
           cd pr
           python scripts/run_evals.py prompts/classifier.txt evals/classifier.jsonl ../pr_results.json
 
-      - name: Compare and render comment
+      - name: Compare results
         id: compare
         continue-on-error: true
         run: |
           python pr/scripts/compare.py main_results.json pr_results.json comment.md 0.05
-          echo "exit_code=$?" >> $GITHUB_OUTPUT
 
       - name: Post PR comment
+        if: always()
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: comment.md
           header: prompt-ci
 
       - name: Upload result artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: eval-results
@@ -71,7 +72,7 @@ jobs:
             comment.md
 
       - name: Fail on regression
-        if: steps.compare.outputs.exit_code != '0'
+        if: steps.compare.outcome == 'failure'
         run: |
           echo "::error::Eval regression exceeded threshold"
           exit 1
